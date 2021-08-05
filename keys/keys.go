@@ -15,8 +15,6 @@ import (
 	"github.com/stafiprotocol/tendermint/crypto/secp256k1"
 
 	"github.com/stafiprotocol/go-sdk/common"
-	"github.com/stafiprotocol/go-sdk/common/ledger"
-	"github.com/stafiprotocol/go-sdk/common/types"
 	ctypes "github.com/stafiprotocol/go-sdk/common/types"
 	"github.com/stafiprotocol/go-sdk/common/uuid"
 	"github.com/stafiprotocol/go-sdk/types/txtype"
@@ -60,12 +58,6 @@ func NewKeyStoreKeyManager(file string, auth string) (KeyManager, error) {
 func NewPrivateKeyManager(priKey string) (KeyManager, error) {
 	k := keyManager{}
 	err := k.recoveryFromPrivateKey(priKey)
-	return &k, err
-}
-
-func NewLedgerKeyManager(path ledger.DerivationPath) (KeyManager, error) {
-	k := keyManager{}
-	err := k.recoveryFromLedgerKey(path)
 	return &k, err
 }
 
@@ -176,27 +168,6 @@ func (m *keyManager) recoveryFromPrivateKey(privateKey string) error {
 	addr := ctypes.AccAddress(priKey.PubKey().Address())
 	m.addr = addr
 	m.privKey = priKey
-	return nil
-}
-
-func (m *keyManager) recoveryFromLedgerKey(path ledger.DerivationPath) error {
-	if ledger.DiscoverLedger == nil {
-		return fmt.Errorf("no Ledger discovery function defined, please make sure you have added ledger to build tags and cgo is enabled")
-	}
-
-	device, err := ledger.DiscoverLedger()
-	if err != nil {
-		return fmt.Errorf("failed to find ledger device: %s", err.Error())
-	}
-
-	pkl, err := ledger.GenLedgerSecp256k1Key(path, device)
-	if err != nil {
-		return fmt.Errorf("failed to create PrivKeyLedgerSecp256k1: %s", err.Error())
-	}
-
-	addr := types.AccAddress(pkl.PubKey().Address())
-	m.addr = addr
-	m.privKey = pkl
 	return nil
 }
 

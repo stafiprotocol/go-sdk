@@ -1,7 +1,6 @@
 ## How to run this example
 
-- Please refer to this [document](https://www.binance.org/static/guides/DEX-Ledger-Documentation.html) to install binance-ledger-app on your ledger device 
-- Compile this example
+ - Compile this example
     ```
     make install
     ```

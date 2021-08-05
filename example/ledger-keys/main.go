@@ -13,24 +13,6 @@ import (
 // To run this example, please make sure your key address have more than 1:BNB on testnet
 func main() {
 	types.Network = types.TestNetwork
-	////Check whether there are variable ledger devices
-	//ledgerDevice, err := ledger.DiscoverLedger()
-	//if err != nil {
-	//	fmt.Println(fmt.Sprintf("Failed to find ledger device: %s", err.Error()))
-	//	return
-	//}
-	//err = ledgerDevice.Close()
-	//if err != nil {
-	//	fmt.Println(fmt.Sprintf("Failed to find ledger device: %s", err.Error()))
-	//	return
-	//}
-
-	//bip44Params := keys.NewBinanceBIP44Params(0, 0)
-	//keyManager, err := keys.NewLedgerKeyManager(bip44Params.DerivationPath())
-	//if err != nil {
-	//	fmt.Println(err.Error())
-	//	return
-	//}
 
 	keyManager, err := keys.NewPrivateKeyManager("64967ded205b00b1f872f59242031d4cc02a1bcca47017361d7f3854e86c545e")
 	keyManager.GetAddr()
