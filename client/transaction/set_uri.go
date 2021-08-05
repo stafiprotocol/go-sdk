@@ -1,18 +1,18 @@
 package transaction
 
 import (
-	"github.com/stafiprotocol/go-sdk/types/msg"
-	"github.com/stafiprotocol/go-sdk/types/tx"
+	"github.com/stafiprotocol/go-sdk/types/msgtype"
+	"github.com/stafiprotocol/go-sdk/types/txtype"
 )
 
 type SetUriResult struct {
-	tx.TxCommitResult
+	txtype.TxCommitResult
 }
 
 func (c *client) SetURI(symbol, tokenURI string, sync bool, options ...Option) (*SetUriResult, error) {
 	fromAddr := c.keyManager.GetAddr()
 
-	setURIMsg := msg.NewSetUriMsg(fromAddr, symbol, tokenURI)
+	setURIMsg := msgtype.NewSetUriMsg(fromAddr, symbol, tokenURI)
 	commit, err := c.broadcastMsg(setURIMsg, sync, options...)
 	if err != nil {
 		return nil, err

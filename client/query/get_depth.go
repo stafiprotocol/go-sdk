@@ -8,12 +8,12 @@ import (
 )
 
 // GetDepth returns market depth records
-func (c *client) GetDepth(query *types.DepthQuery) (*types.MarketDepth, error) {
-	err := query.Check()
+func (c *client) GetDepth(depthQuery *types.DepthQuery) (*types.MarketDepth, error) {
+	err := depthQuery.Check()
 	if err != nil {
 		return nil, err
 	}
-	qp, err := common.QueryParamToMap(*query)
+	qp, err := common.QueryParamToMap(*depthQuery)
 	if err != nil {
 		return nil, err
 	}

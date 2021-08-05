@@ -1,17 +1,17 @@
 package transaction
 
 import (
-	"github.com/stafiprotocol/go-sdk/types/msg"
-	"github.com/stafiprotocol/go-sdk/types/tx"
+	"github.com/stafiprotocol/go-sdk/types/msgtype"
+	"github.com/stafiprotocol/go-sdk/types/txtype"
 )
 
 type VoteProposalResult struct {
-	tx.TxCommitResult
+	txtype.TxCommitResult
 }
 
-func (c *client) VoteProposal(proposalID int64, option msg.VoteOption, sync bool, options ...Option) (*VoteProposalResult, error) {
+func (c *client) VoteProposal(proposalID int64, option msgtype.VoteOption, sync bool, options ...Option) (*VoteProposalResult, error) {
 	fromAddr := c.keyManager.GetAddr()
-	voteMsg := msg.NewMsgVote(fromAddr, proposalID, option)
+	voteMsg := msgtype.NewMsgVote(fromAddr, proposalID, option)
 	commit, err := c.broadcastMsg(voteMsg, sync, options...)
 	if err != nil {
 		return nil, err

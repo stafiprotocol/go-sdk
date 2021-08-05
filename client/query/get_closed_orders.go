@@ -8,12 +8,12 @@ import (
 )
 
 // GetClosedOrders returns array of open orders
-func (c *client) GetClosedOrders(query *types.ClosedOrdersQuery) (*types.CloseOrders, error) {
-	err := query.Check()
+func (c *client) GetClosedOrders(closeOrderQuery *types.ClosedOrdersQuery) (*types.CloseOrders, error) {
+	err := closeOrderQuery.Check()
 	if err != nil {
 		return nil, err
 	}
-	qp, err := common.QueryParamToMap(*query)
+	qp, err := common.QueryParamToMap(*closeOrderQuery)
 	if err != nil {
 		return nil, err
 	}

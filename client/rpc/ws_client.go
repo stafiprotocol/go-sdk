@@ -3,28 +3,26 @@ package rpc
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net"
 	"net/http"
-	"sync/atomic"
-
-	"fmt"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"github.com/gorilla/websocket"
 	"github.com/pkg/errors"
 
-	"github.com/tendermint/go-amino"
+	"github.com/stafiprotocol/go-sdk/common/uuid"
+	"github.com/stafiprotocol/go-sdk/types/txtype"
 	cmn "github.com/stafiprotocol/tendermint/libs/common"
 	"github.com/stafiprotocol/tendermint/libs/log"
 	"github.com/stafiprotocol/tendermint/rpc/client"
 	ctypes "github.com/stafiprotocol/tendermint/rpc/core/types"
 	"github.com/stafiprotocol/tendermint/rpc/lib/types"
 	"github.com/stafiprotocol/tendermint/types"
-
-	"github.com/stafiprotocol/go-sdk/common/uuid"
-	"github.com/stafiprotocol/go-sdk/types/tx"
+	"github.com/tendermint/go-amino"
 )
 
 const (
@@ -1018,8 +1016,8 @@ func formatTxResult(cdc *amino.Codec, res *ResultTx) (Info, error) {
 	}, nil
 }
 
-func ParseTx(cdc *amino.Codec, txBytes []byte) (tx.Tx, error) {
-	var parsedTx tx.StdTx
+func ParseTx(cdc *amino.Codec, txBytes []byte) (txtype.Tx, error) {
+	var parsedTx txtype.StdTx
 	err := cdc.UnmarshalBinaryLengthPrefixed(txBytes, &parsedTx)
 
 	if err != nil {

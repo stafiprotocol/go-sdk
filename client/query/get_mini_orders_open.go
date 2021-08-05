@@ -8,12 +8,12 @@ import (
 )
 
 // GetMiniOpenOrders returns array of mini open orders
-func (c *client) GetMiniOpenOrders(query *types.OpenOrdersQuery) (*types.OpenOrders, error) {
-	err := query.Check()
+func (c *client) GetMiniOpenOrders(openOrderQuery *types.OpenOrdersQuery) (*types.OpenOrders, error) {
+	err := openOrderQuery.Check()
 	if err != nil {
 		return nil, err
 	}
-	qp, err := common.QueryParamToMap(*query)
+	qp, err := common.QueryParamToMap(*openOrderQuery)
 	if err != nil {
 		return nil, err
 	}

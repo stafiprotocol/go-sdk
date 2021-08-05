@@ -8,12 +8,12 @@ import (
 )
 
 // GetMiniTrades returns trade details
-func (c *client) GetMiniTrades(query *types.TradesQuery) (*types.Trades, error) {
-	err := query.Check()
+func (c *client) GetMiniTrades(tradesQuery *types.TradesQuery) (*types.Trades, error) {
+	err := tradesQuery.Check()
 	if err != nil {
 		return nil, err
 	}
-	qp, err := common.QueryParamToMap(*query)
+	qp, err := common.QueryParamToMap(*tradesQuery)
 	if err != nil {
 		return nil, err
 	}

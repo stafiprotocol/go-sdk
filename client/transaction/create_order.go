@@ -4,13 +4,14 @@ import (
 	"encoding/json"
 	"fmt"
 
+
 	"github.com/stafiprotocol/go-sdk/common"
-	"github.com/stafiprotocol/go-sdk/types/msg"
-	"github.com/stafiprotocol/go-sdk/types/tx"
+	"github.com/stafiprotocol/go-sdk/types/msgtype"
+	"github.com/stafiprotocol/go-sdk/types/txtype"
 )
 
 type CreateOrderResult struct {
-	tx.TxCommitResult
+	txtype.TxCommitResult
 	OrderId string
 }
 
@@ -19,7 +20,7 @@ func (c *client) CreateOrder(baseAssetSymbol, quoteAssetSymbol string, op int8, 
 		return nil, fmt.Errorf("BaseAssetSymbol or QuoteAssetSymbol is missing. ")
 	}
 	fromAddr := c.keyManager.GetAddr()
-	newOrderMsg := msg.NewCreateOrderMsg(
+	newOrderMsg := msgtype.NewCreateOrderMsg(
 		fromAddr,
 		"",
 		op,

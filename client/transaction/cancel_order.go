@@ -4,12 +4,12 @@ import (
 	"fmt"
 
 	"github.com/stafiprotocol/go-sdk/common"
-	"github.com/stafiprotocol/go-sdk/types/msg"
-	"github.com/stafiprotocol/go-sdk/types/tx"
+	"github.com/stafiprotocol/go-sdk/types/msgtype"
+	"github.com/stafiprotocol/go-sdk/types/txtype"
 )
 
 type CancelOrderResult struct {
-	tx.TxCommitResult
+	txtype.TxCommitResult
 }
 
 func (c *client) CancelOrder(baseAssetSymbol, quoteAssetSymbol, refId string, sync bool, options ...Option) (*CancelOrderResult, error) {
@@ -22,7 +22,7 @@ func (c *client) CancelOrder(baseAssetSymbol, quoteAssetSymbol, refId string, sy
 
 	fromAddr := c.keyManager.GetAddr()
 
-	cancelOrderMsg := msg.NewCancelOrderMsg(fromAddr, common.CombineSymbol(baseAssetSymbol, quoteAssetSymbol), refId)
+	cancelOrderMsg := msgtype.NewCancelOrderMsg(fromAddr, common.CombineSymbol(baseAssetSymbol, quoteAssetSymbol), refId)
 	commit, err := c.broadcastMsg(cancelOrderMsg, sync, options...)
 	if err != nil {
 		return nil, err

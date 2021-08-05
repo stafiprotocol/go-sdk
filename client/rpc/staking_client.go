@@ -10,10 +10,10 @@ import (
 	"time"
 
 	"github.com/stafiprotocol/go-sdk/common/types"
-	"github.com/stafiprotocol/go-sdk/types/msg"
-	"github.com/stafiprotocol/go-sdk/types/tx"
-	"github.com/tendermint/go-amino"
+	"github.com/stafiprotocol/go-sdk/types/msgtype"
+	"github.com/stafiprotocol/go-sdk/types/txtype"
 	coretypes "github.com/stafiprotocol/tendermint/rpc/core/types"
+	"github.com/tendermint/go-amino"
 )
 
 var (
@@ -28,12 +28,12 @@ var (
 )
 
 type StakingClient interface {
-	CreateSideChainValidator(delegation types.Coin, description msg.Description, commission types.CommissionMsg, sideChainId string, sideConsAddr []byte, sideFeeAddr []byte, syncType SyncType, options ...tx.Option) (*coretypes.ResultBroadcastTx, error)
-	EditSideChainValidator(sideChainId string, description msg.Description, commissionRate *types.Dec, sideFeeAddr []byte, syncType SyncType, options ...tx.Option) (*coretypes.ResultBroadcastTx, error)
-	SideChainDelegate(sideChainId string, valAddr types.ValAddress, delegation types.Coin, syncType SyncType, options ...tx.Option) (*coretypes.ResultBroadcastTx, error)
-	SideChainRedelegate(sideChainId string, valSrcAddr types.ValAddress, valDstAddr types.ValAddress, amount types.Coin, syncType SyncType, options ...tx.Option) (*coretypes.ResultBroadcastTx, error)
-	SideChainUnbond(sideChainId string, valAddr types.ValAddress, amount types.Coin, syncType SyncType, options ...tx.Option) (*coretypes.ResultBroadcastTx, error)
-	SideChainUnjail(sideChainId string, valAddr types.ValAddress, syncType SyncType, options ...tx.Option) (*coretypes.ResultBroadcastTx, error)
+	CreateSideChainValidator(delegation types.Coin, description msgtype.Description, commission types.CommissionMsg, sideChainId string, sideConsAddr []byte, sideFeeAddr []byte, syncType SyncType, options ...txtype.Option) (*coretypes.ResultBroadcastTx, error)
+	EditSideChainValidator(sideChainId string, description msgtype.Description, commissionRate *types.Dec, sideFeeAddr []byte, syncType SyncType, options ...txtype.Option) (*coretypes.ResultBroadcastTx, error)
+	SideChainDelegate(sideChainId string, valAddr types.ValAddress, delegation types.Coin, syncType SyncType, options ...txtype.Option) (*coretypes.ResultBroadcastTx, error)
+	SideChainRedelegate(sideChainId string, valSrcAddr types.ValAddress, valDstAddr types.ValAddress, amount types.Coin, syncType SyncType, options ...txtype.Option) (*coretypes.ResultBroadcastTx, error)
+	SideChainUnbond(sideChainId string, valAddr types.ValAddress, amount types.Coin, syncType SyncType, options ...txtype.Option) (*coretypes.ResultBroadcastTx, error)
+	SideChainUnjail(sideChainId string, valAddr types.ValAddress, syncType SyncType, options ...txtype.Option) (*coretypes.ResultBroadcastTx, error)
 
 	QuerySideChainValidator(sideChainId string, valAddr types.ValAddress) (*types.Validator, error)
 	QuerySideChainTopValidators(sideChainId string, top int) ([]types.Validator, error)
@@ -74,47 +74,47 @@ type bechValidator struct {
 	SideFeeAddr      string           `json:"side_fee_addr,omitempty"`     // fee address on the side chain
 }
 
-func (c *HTTP) CreateSideChainValidator(delegation types.Coin, description msg.Description, commission types.CommissionMsg,
-	sideChainId string, sideConsAddr []byte, sideFeeAddr []byte, syncType SyncType, options ...tx.Option) (*coretypes.ResultBroadcastTx, error) {
+func (c *HTTP) CreateSideChainValidator(delegation types.Coin, description msgtype.Description, commission types.CommissionMsg,
+	sideChainId string, sideConsAddr []byte, sideFeeAddr []byte, syncType SyncType, options ...txtype.Option) (*coretypes.ResultBroadcastTx, error) {
 	if c.key == nil {
 		return nil, KeyMissingError
 	}
 
 	valOpAddr := types.ValAddress(c.key.GetAddr())
 
-	m := msg.NewCreateSideChainValidatorMsg(valOpAddr, delegation, description, commission, sideChainId, sideConsAddr, sideFeeAddr)
+	m := msgtype.NewCreateSideChainValidatorMsg(valOpAddr, delegation, description, commission, sideChainId, sideConsAddr, sideFeeAddr)
 
 	return c.Broadcast(m, syncType, options...)
 }
 
-func (c *HTTP) EditSideChainValidator(sideChainId string, description msg.Description, commissionRate *types.Dec,
-	sideFeeAddr []byte, syncType SyncType, options ...tx.Option) (*coretypes.ResultBroadcastTx, error) {
+func (c *HTTP) EditSideChainValidator(sideChainId string, description msgtype.Description, commissionRate *types.Dec,
+	sideFeeAddr []byte, syncType SyncType, options ...txtype.Option) (*coretypes.ResultBroadcastTx, error) {
 	if c.key == nil {
 		return nil, KeyMissingError
 	}
 
 	valOpAddr := types.ValAddress(c.key.GetAddr())
 
-	m := msg.NewEditSideChainValidatorMsg(sideChainId, valOpAddr, description, commissionRate, sideFeeAddr)
+	m := msgtype.NewEditSideChainValidatorMsg(sideChainId, valOpAddr, description, commissionRate, sideFeeAddr)
 
 	return c.Broadcast(m, syncType, options...)
 }
 
 func (c *HTTP) SideChainDelegate(sideChainId string, valAddr types.ValAddress, delegation types.Coin, syncType SyncType,
-	options ...tx.Option) (*coretypes.ResultBroadcastTx, error) {
+	options ...txtype.Option) (*coretypes.ResultBroadcastTx, error) {
 	if c.key == nil {
 		return nil, KeyMissingError
 	}
 
 	delAddr := c.key.GetAddr()
 
-	m := msg.NewSideChainDelegateMsg(sideChainId, delAddr, valAddr, delegation)
+	m := msgtype.NewSideChainDelegateMsg(sideChainId, delAddr, valAddr, delegation)
 
 	return c.Broadcast(m, syncType, options...)
 }
 
 func (c *HTTP) SideChainRedelegate(sideChainId string, valSrcAddr types.ValAddress, valDstAddr types.ValAddress, amount types.Coin,
-	syncType SyncType, options ...tx.Option) (*coretypes.ResultBroadcastTx, error) {
+	syncType SyncType, options ...txtype.Option) (*coretypes.ResultBroadcastTx, error) {
 	if c.key == nil {
 		return nil, KeyMissingError
 	}
@@ -125,30 +125,30 @@ func (c *HTTP) SideChainRedelegate(sideChainId string, valSrcAddr types.ValAddre
 
 	delAddr := c.key.GetAddr()
 
-	m := msg.NewSideChainRedelegateMsg(sideChainId, delAddr, valSrcAddr, valDstAddr, amount)
+	m := msgtype.NewSideChainRedelegateMsg(sideChainId, delAddr, valSrcAddr, valDstAddr, amount)
 
 	return c.Broadcast(m, syncType, options...)
 }
 
 func (c *HTTP) SideChainUnbond(sideChainId string, valAddr types.ValAddress, amount types.Coin, syncType SyncType,
-	options ...tx.Option) (*coretypes.ResultBroadcastTx, error) {
+	options ...txtype.Option) (*coretypes.ResultBroadcastTx, error) {
 	if c.key == nil {
 		return nil, KeyMissingError
 	}
 
 	delAddr := c.key.GetAddr()
 
-	m := msg.NewSideChainUndelegateMsg(sideChainId, delAddr, valAddr, amount)
+	m := msgtype.NewSideChainUndelegateMsg(sideChainId, delAddr, valAddr, amount)
 
 	return c.Broadcast(m, syncType, options...)
 }
 
-func (c *HTTP) SideChainUnjail(sideChainId string, valAddr types.ValAddress, syncType SyncType, options ...tx.Option) (*coretypes.ResultBroadcastTx, error) {
+func (c *HTTP) SideChainUnjail(sideChainId string, valAddr types.ValAddress, syncType SyncType, options ...txtype.Option) (*coretypes.ResultBroadcastTx, error) {
 	if c.key == nil {
 		return nil, KeyMissingError
 	}
 
-	m := msg.NewMsgSideChainUnjail(valAddr, sideChainId)
+	m := msgtype.NewMsgSideChainUnjail(valAddr, sideChainId)
 
 	return c.Broadcast(m, syncType, options...)
 }

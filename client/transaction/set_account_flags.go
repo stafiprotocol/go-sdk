@@ -3,12 +3,12 @@ package transaction
 import (
 	"fmt"
 	"github.com/stafiprotocol/go-sdk/common/types"
-	"github.com/stafiprotocol/go-sdk/types/msg"
-	"github.com/stafiprotocol/go-sdk/types/tx"
+	"github.com/stafiprotocol/go-sdk/types/msgtype"
+	"github.com/stafiprotocol/go-sdk/types/txtype"
 )
 
 type SetAccountFlagsResult struct {
-	tx.TxCommitResult
+	txtype.TxCommitResult
 }
 
 func (c *client) AddAccountFlags(flagOptions []types.FlagOption, sync bool, options ...Option) (*SetAccountFlagsResult, error) {
@@ -24,7 +24,7 @@ func (c *client) AddAccountFlags(flagOptions []types.FlagOption, sync bool, opti
 	for _, f := range flagOptions {
 		flags = flags | uint64(f)
 	}
-	setAccMsg := msg.NewSetAccountFlagsMsg(
+	setAccMsg := msgtype.NewSetAccountFlagsMsg(
 		fromAddr,
 		flags,
 	)
@@ -38,7 +38,7 @@ func (c *client) AddAccountFlags(flagOptions []types.FlagOption, sync bool, opti
 
 func (c *client) SetAccountFlags(flags uint64, sync bool, options ...Option) (*SetAccountFlagsResult, error) {
 	fromAddr := c.keyManager.GetAddr()
-	setAccMsg := msg.NewSetAccountFlagsMsg(
+	setAccMsg := msgtype.NewSetAccountFlagsMsg(
 		fromAddr,
 		flags,
 	)

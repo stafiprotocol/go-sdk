@@ -8,12 +8,12 @@ import (
 )
 
 // GetMarkets returns list of trading pairs
-func (c *client) GetMarkets(query *types.MarketsQuery) ([]types.TradingPair, error) {
-	err := query.Check()
+func (c *client) GetMarkets(marketsQuery *types.MarketsQuery) ([]types.TradingPair, error) {
+	err := marketsQuery.Check()
 	if err != nil {
 		return nil, err
 	}
-	qp, err := common.QueryParamToMap(*query)
+	qp, err := common.QueryParamToMap(*marketsQuery)
 	if err != nil {
 		return nil, err
 	}

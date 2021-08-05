@@ -8,12 +8,12 @@ import (
 )
 
 // GetOpenOrders returns array of open orders
-func (c *client) GetOpenOrders(query *types.OpenOrdersQuery) (*types.OpenOrders, error) {
-	err := query.Check()
+func (c *client) GetOpenOrders(openOrdersQuery *types.OpenOrdersQuery) (*types.OpenOrders, error) {
+	err := openOrdersQuery.Check()
 	if err != nil {
 		return nil, err
 	}
-	qp, err := common.QueryParamToMap(*query)
+	qp, err := common.QueryParamToMap(*openOrdersQuery)
 	if err != nil {
 		return nil, err
 	}

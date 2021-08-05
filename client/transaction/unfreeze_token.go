@@ -2,13 +2,12 @@ package transaction
 
 import (
 	"fmt"
-
-	"github.com/stafiprotocol/go-sdk/types/msg"
-	"github.com/stafiprotocol/go-sdk/types/tx"
+	"github.com/stafiprotocol/go-sdk/types/msgtype"
+	"github.com/stafiprotocol/go-sdk/types/txtype"
 )
 
 type UnfreezeTokenResult struct {
-	tx.TxCommitResult
+	txtype.TxCommitResult
 }
 
 func (c *client) UnfreezeToken(symbol string, amount int64, sync bool, options ...Option) (*UnfreezeTokenResult, error) {
@@ -17,7 +16,7 @@ func (c *client) UnfreezeToken(symbol string, amount int64, sync bool, options .
 	}
 	fromAddr := c.keyManager.GetAddr()
 
-	unfreezeMsg := msg.NewUnfreezeMsg(
+	unfreezeMsg := msgtype.NewUnfreezeMsg(
 		fromAddr,
 		symbol,
 		amount,

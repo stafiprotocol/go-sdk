@@ -19,7 +19,7 @@ import (
 	"github.com/stafiprotocol/go-sdk/common/types"
 	ctypes "github.com/stafiprotocol/go-sdk/common/types"
 	"github.com/stafiprotocol/go-sdk/common/uuid"
-	"github.com/stafiprotocol/go-sdk/types/tx"
+	"github.com/stafiprotocol/go-sdk/types/txtype"
 	"github.com/stafiprotocol/tendermint/crypto"
 )
 
@@ -28,7 +28,7 @@ const (
 )
 
 type KeyManager interface {
-	Sign(tx.StdSignMsg) ([]byte, error)
+	Sign(txtype.StdSignMsg) ([]byte, error)
 	GetPrivKey() crypto.PrivKey
 	GetAddr() ctypes.AccAddress
 
@@ -200,13 +200,13 @@ func (m *keyManager) recoveryFromLedgerKey(path ledger.DerivationPath) error {
 	return nil
 }
 
-func (m *keyManager) Sign(msg tx.StdSignMsg) ([]byte, error) {
+func (m *keyManager) Sign(msg txtype.StdSignMsg) ([]byte, error) {
 	sig, err := m.makeSignature(msg)
 	if err != nil {
 		return nil, err
 	}
-	newTx := tx.NewStdTx(msg.Msgs, []tx.StdSignature{sig}, msg.Memo, msg.Source, msg.Data)
-	bz, err := tx.Cdc.MarshalBinaryLengthPrefixed(&newTx)
+	newTx := txtype.NewStdTx(msg.Msgs, []txtype.StdSignature{sig}, msg.Memo, msg.Source, msg.Data)
+	bz, err := txtype.Cdc.MarshalBinaryLengthPrefixed(&newTx)
 	if err != nil {
 		return nil, err
 	}
@@ -221,7 +221,7 @@ func (m *keyManager) GetAddr() ctypes.AccAddress {
 	return m.addr
 }
 
-func (m *keyManager) makeSignature(msg tx.StdSignMsg) (sig tx.StdSignature, err error) {
+func (m *keyManager) makeSignature(msg txtype.StdSignMsg) (sig txtype.StdSignature, err error) {
 	if err != nil {
 		return
 	}
@@ -229,7 +229,7 @@ func (m *keyManager) makeSignature(msg tx.StdSignMsg) (sig tx.StdSignature, err 
 	if err != nil {
 		return
 	}
-	return tx.StdSignature{
+	return txtype.StdSignature{
 		AccountNumber: msg.AccountNumber,
 		Sequence:      msg.Sequence,
 		PubKey:        m.privKey.PubKey(),

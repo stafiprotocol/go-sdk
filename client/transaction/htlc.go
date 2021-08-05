@@ -2,18 +2,18 @@ package transaction
 
 import (
 	"github.com/stafiprotocol/go-sdk/common/types"
-	"github.com/stafiprotocol/go-sdk/types/msg"
-	"github.com/stafiprotocol/go-sdk/types/tx"
+	"github.com/stafiprotocol/go-sdk/types/msgtype"
+	"github.com/stafiprotocol/go-sdk/types/txtype"
 )
 
 type HTLTResult struct {
-	tx.TxCommitResult
+	txtype.TxCommitResult
 }
 
 func (c *client) HTLT(recipient types.AccAddress, recipientOtherChain, senderOtherChain string, randomNumberHash []byte, timestamp int64,
 	amount types.Coins, expectedIncome string, heightSpan int64, crossChain bool, sync bool, options ...Option) (*HTLTResult, error) {
 	fromAddr := c.keyManager.GetAddr()
-	htltMsg := msg.NewHTLTMsg(
+	htltMsg := msgtype.NewHTLTMsg(
 		fromAddr,
 		recipient,
 		recipientOtherChain,
@@ -33,13 +33,13 @@ func (c *client) HTLT(recipient types.AccAddress, recipientOtherChain, senderOth
 }
 
 type DepositHTLTResult struct {
-	tx.TxCommitResult
+	txtype.TxCommitResult
 }
 
 func (c *client) DepositHTLT(swapID []byte, amount types.Coins,
 	sync bool, options ...Option) (*DepositHTLTResult, error) {
 	fromAddr := c.keyManager.GetAddr()
-	depositHTLTMsg := msg.NewDepositHTLTMsg(
+	depositHTLTMsg := msgtype.NewDepositHTLTMsg(
 		fromAddr,
 		swapID,
 		amount,
@@ -52,12 +52,12 @@ func (c *client) DepositHTLT(swapID []byte, amount types.Coins,
 }
 
 type ClaimHTLTResult struct {
-	tx.TxCommitResult
+	txtype.TxCommitResult
 }
 
 func (c *client) ClaimHTLT(swapID []byte, randomNumber []byte, sync bool, options ...Option) (*ClaimHTLTResult, error) {
 	fromAddr := c.keyManager.GetAddr()
-	claimHTLTMsg := msg.NewClaimHTLTMsg(
+	claimHTLTMsg := msgtype.NewClaimHTLTMsg(
 		fromAddr,
 		swapID,
 		randomNumber,
@@ -70,12 +70,12 @@ func (c *client) ClaimHTLT(swapID []byte, randomNumber []byte, sync bool, option
 }
 
 type RefundHTLTResult struct {
-	tx.TxCommitResult
+	txtype.TxCommitResult
 }
 
 func (c *client) RefundHTLT(swapID []byte, sync bool, options ...Option) (*RefundHTLTResult, error) {
 	fromAddr := c.keyManager.GetAddr()
-	refundHTLTMsg := msg.NewRefundHTLTMsg(
+	refundHTLTMsg := msgtype.NewRefundHTLTMsg(
 		fromAddr,
 		swapID,
 	)

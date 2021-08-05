@@ -12,17 +12,17 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/assert"
 	"github.com/stafiprotocol/tendermint/libs/common"
 	tmquery "github.com/stafiprotocol/tendermint/libs/pubsub/query"
 	"github.com/stafiprotocol/tendermint/types"
+	"github.com/stretchr/testify/assert"
 
 	"github.com/stafiprotocol/go-sdk/client/rpc"
 	"github.com/stafiprotocol/go-sdk/client/transaction"
 	ctypes "github.com/stafiprotocol/go-sdk/common/types"
 	"github.com/stafiprotocol/go-sdk/keys"
-	"github.com/stafiprotocol/go-sdk/types/msg"
-	"github.com/stafiprotocol/go-sdk/types/tx"
+	"github.com/stafiprotocol/go-sdk/types/msgtype"
+	"github.com/stafiprotocol/go-sdk/types/txtype"
 )
 
 var (
@@ -232,9 +232,9 @@ func TestClaimTx(t *testing.T) {
 
 	rawTx, err := c.Tx(bz, false)
 	assert.NoError(t, err)
-	claimTx, err := rpc.ParseTx(tx.Cdc, rawTx.Tx)
-	claimMsg := claimTx.GetMsgs()[0].(msg.ClaimMsg)
-	packages, err := msg.ParseClaimPayload(claimMsg.Payload)
+	claimTx, err := rpc.ParseTx(txtype.Cdc, rawTx.Tx)
+	claimMsg := claimTx.GetMsgs()[0].(msgtype.ClaimMsg)
+	packages, err := msgtype.ParseClaimPayload(claimMsg.Payload)
 	assert.NoError(t, err)
 	newBz, err := json.Marshal(packages)
 	assert.NoError(t, err)
@@ -522,7 +522,7 @@ func TestSendToken(t *testing.T) {
 	c.SetKeyManager(keyManager)
 	testacc, err := ctypes.AccAddressFromBech32(testAddress)
 	assert.NoError(t, err)
-	res, err := c.SendToken([]msg.Transfer{{testacc, []ctypes.Coin{{"BNB", 100000}}}}, rpc.Sync, transaction.WithMemo("123"))
+	res, err := c.SendToken([]msgtype.Transfer{{testacc, []ctypes.Coin{{"BNB", 100000}}}}, rpc.Sync, transaction.WithMemo("123"))
 	assert.NoError(t, err)
 	bz, err := json.Marshal(res)
 	fmt.Println(string(bz))
@@ -545,18 +545,18 @@ func TestSubmitSideProposal(t *testing.T) {
 	assert.NoError(t, err)
 	c.SetKeyManager(keyManager)
 
-	iScPrams := make([]msg.SCParam, 0)
+	iScPrams := make([]msgtype.SCParam, 0)
 
-	err = tx.Cdc.UnmarshalJSON([]byte(scParams), &iScPrams)
+	err = txtype.Cdc.UnmarshalJSON([]byte(scParams), &iScPrams)
 	assert.NoError(t, err)
 
-	res, err := c.SideChainSubmitSCParamsProposal("title", msg.SCChangeParams{SCParams: iScPrams, Description: "des"}, ctypes.Coins{{msg.NativeToken, 5e11}}, 5*time.Second, "rialto", rpc.Sync)
+	res, err := c.SideChainSubmitSCParamsProposal("title", msgtype.SCChangeParams{SCParams: iScPrams, Description: "des"}, ctypes.Coins{{msgtype.NativeToken, 5e11}}, 5*time.Second, "rialto", rpc.Sync)
 	assert.NoError(t, err)
 	assert.True(t, res.Code == 0)
 	proposalIdStr := string(res.Data)
 	id, err := strconv.ParseInt(proposalIdStr, 10, 64)
 	assert.NoError(t, err)
-	res, err = c.SideChainVote(int64(id), msg.OptionYes, "rialto", rpc.Sync)
+	res, err = c.SideChainVote(int64(id), msgtype.OptionYes, "rialto", rpc.Sync)
 	assert.NoError(t, err)
 	assert.True(t, res.Code == 0)
 }
@@ -569,13 +569,13 @@ func TestSubmitCSCProposal(t *testing.T) {
 	assert.NoError(t, err)
 	c.SetKeyManager(keyManager)
 
-	cscPrams := msg.CSCParamChange{
+	cscPrams := msgtype.CSCParamChange{
 		Key:    common.RandStr(common.RandIntn(255) + 1),
 		Value:  hex.EncodeToString(common.RandBytes(common.RandIntn(255) + 1)),
 		Target: hex.EncodeToString(common.RandBytes(20)),
 	}
 
-	res, err := c.SideChainSubmitCSCParamsProposal("title", cscPrams, ctypes.Coins{{msg.NativeToken, 5e8}}, 5*time.Second, "rialto", rpc.Sync)
+	res, err := c.SideChainSubmitCSCParamsProposal("title", cscPrams, ctypes.Coins{{msgtype.NativeToken, 5e8}}, 5*time.Second, "rialto", rpc.Sync)
 	assert.NoError(t, err)
 	assert.True(t, res.Code == 0)
 
@@ -594,7 +594,7 @@ func TestCreateOrder(t *testing.T) {
 	keyManager, err := keys.NewMnemonicKeyManager(mnemonic)
 	assert.NoError(t, err)
 	c.SetKeyManager(keyManager)
-	createOrderResult, err := c.CreateOrder(testTradeSymbol, "BNB", msg.OrderSide.BUY, 100000000, 100000000, rpc.Commit, transaction.WithSource(100), transaction.WithMemo("test memo"))
+	createOrderResult, err := c.CreateOrder(testTradeSymbol, "BNB", msgtype.OrderSide.BUY, 100000000, 100000000, rpc.Commit, transaction.WithSource(100), transaction.WithMemo("test memo"))
 
 	assert.NoError(t, err)
 	bz, err := json.Marshal(createOrderResult)

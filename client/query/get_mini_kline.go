@@ -9,12 +9,12 @@ import (
 )
 
 // GetMiniKlines returns mini token klines
-func (c *client) GetMiniKlines(query *types.KlineQuery) ([]types.Kline, error) {
-	err := query.Check()
+func (c *client) GetMiniKlines(klineQuery *types.KlineQuery) ([]types.Kline, error) {
+	err := klineQuery.Check()
 	if err != nil {
 		return nil, err
 	}
-	qp, err := common.QueryParamToMap(*query)
+	qp, err := common.QueryParamToMap(*klineQuery)
 	if err != nil {
 		return nil, err
 	}

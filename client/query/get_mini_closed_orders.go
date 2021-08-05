@@ -8,12 +8,12 @@ import (
 )
 
 // GetMiniClosedOrders returns array of mini closed orders
-func (c *client) GetMiniClosedOrders(query *types.ClosedOrdersQuery) (*types.CloseOrders, error) {
-	err := query.Check()
+func (c *client) GetMiniClosedOrders(closedOrdersQuery *types.ClosedOrdersQuery) (*types.CloseOrders, error) {
+	err := closedOrdersQuery.Check()
 	if err != nil {
 		return nil, err
 	}
-	qp, err := common.QueryParamToMap(*query)
+	qp, err := common.QueryParamToMap(*closedOrdersQuery)
 	if err != nil {
 		return nil, err
 	}

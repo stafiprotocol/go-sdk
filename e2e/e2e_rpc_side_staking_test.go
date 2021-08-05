@@ -9,8 +9,8 @@ import (
 	ctypes "github.com/stafiprotocol/go-sdk/common/types"
 	"github.com/stafiprotocol/go-sdk/keys"
 	"github.com/stafiprotocol/go-sdk/types"
-	"github.com/stafiprotocol/go-sdk/types/msg"
-	"github.com/stafiprotocol/go-sdk/types/tx"
+	"github.com/stafiprotocol/go-sdk/types/msgtype"
+	"github.com/stafiprotocol/go-sdk/types/txtype"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -75,7 +75,7 @@ func TestCreateSideChainValidator(t *testing.T) {
 	c := getRpcClientWithKeyManager()
 
 	amount := ctypes.Coin{Denom: "BNB", Amount: 100000000}
-	des := msg.Description{Moniker: "mchain"}
+	des := msgtype.Description{Moniker: "mchain"}
 
 	rate, _ := ctypes.NewDecFromStr("1")
 	maxRate, _ := ctypes.NewDecFromStr("1")
@@ -87,7 +87,7 @@ func TestCreateSideChainValidator(t *testing.T) {
 	sideConsAddr := FromHex("0x9fB29AAc15b9A4B7F17c3385939b007540f4d791")
 	sideFeeAddr := FromHex("0xd1B22dCC24C55f4d728E7aaA5c9b5a22e1512C08")
 
-	res, err := c.CreateSideChainValidator(amount, des, commissionMsg, sideChainId, sideConsAddr, sideFeeAddr, rpc.Sync, tx.WithChainID(chainId))
+	res, err := c.CreateSideChainValidator(amount, des, commissionMsg, sideChainId, sideConsAddr, sideFeeAddr, rpc.Sync, txtype.WithChainID(chainId))
 
 	assert.NotNil(t, res)
 	assert.Nil(t, err)
@@ -96,13 +96,13 @@ func TestCreateSideChainValidator(t *testing.T) {
 func TestEditSideChainValidator(t *testing.T) {
 	c := getRpcClientWithKeyManager()
 
-	des := msg.Description{Moniker: "mchain"}
+	des := msgtype.Description{Moniker: "mchain"}
 
 	rate, _ := ctypes.NewDecFromStr("2")
 
 	sideFeeAddr := FromHex("0xd1B22dCC24C55f4d728E7aaA5c9b5a22e1512C08")
 
-	res, err := c.EditSideChainValidator(types.RialtoNet, des, &rate, sideFeeAddr, rpc.Sync, tx.WithChainID(chainId))
+	res, err := c.EditSideChainValidator(types.RialtoNet, des, &rate, sideFeeAddr, rpc.Sync, txtype.WithChainID(chainId))
 
 	assert.NotNil(t, res)
 	assert.Nil(t, err)
@@ -117,7 +117,7 @@ func TestDelegate(t *testing.T) {
 
 	amount := ctypes.Coin{Denom: "BNB", Amount: 100000000}
 
-	res, err := c.SideChainDelegate(types.RialtoNet, valAddr, amount, rpc.Sync, tx.WithChainID(chainId))
+	res, err := c.SideChainDelegate(types.RialtoNet, valAddr, amount, rpc.Sync, txtype.WithChainID(chainId))
 
 	assert.NotNil(t, res)
 	assert.Nil(t, err)
@@ -136,7 +136,7 @@ func TestRedelegate(t *testing.T) {
 
 	amount := ctypes.Coin{Denom: "BNB", Amount: 100000000}
 
-	res, err := c.SideChainRedelegate(types.RialtoNet, srcValAddr, dstValAddr, amount, rpc.Sync, tx.WithChainID(chainId))
+	res, err := c.SideChainRedelegate(types.RialtoNet, srcValAddr, dstValAddr, amount, rpc.Sync, txtype.WithChainID(chainId))
 
 	assert.NotNil(t, res)
 	assert.Nil(t, err)
@@ -151,7 +151,7 @@ func TestUnbond(t *testing.T) {
 
 	amount := ctypes.Coin{Denom: "BNB", Amount: 100000000}
 
-	res, err := c.SideChainUnbond(types.RialtoNet, valAddr, amount, rpc.Sync, tx.WithChainID(chainId))
+	res, err := c.SideChainUnbond(types.RialtoNet, valAddr, amount, rpc.Sync, txtype.WithChainID(chainId))
 
 	assert.NotNil(t, res)
 	assert.Nil(t, err)

@@ -5,36 +5,37 @@ import (
 	"strconv"
 
 	"github.com/stafiprotocol/go-sdk/client"
-	"github.com/stafiprotocol/go-sdk/common/ledger"
 	"github.com/stafiprotocol/go-sdk/common/types"
 	"github.com/stafiprotocol/go-sdk/keys"
-	"github.com/stafiprotocol/go-sdk/types/msg"
+	"github.com/stafiprotocol/go-sdk/types/msgtype"
 )
 
 // To run this example, please make sure your key address have more than 1:BNB on testnet
 func main() {
 	types.Network = types.TestNetwork
+	////Check whether there are variable ledger devices
+	//ledgerDevice, err := ledger.DiscoverLedger()
+	//if err != nil {
+	//	fmt.Println(fmt.Sprintf("Failed to find ledger device: %s", err.Error()))
+	//	return
+	//}
+	//err = ledgerDevice.Close()
+	//if err != nil {
+	//	fmt.Println(fmt.Sprintf("Failed to find ledger device: %s", err.Error()))
+	//	return
+	//}
 
-	//Check whether there are variable ledger devices
-	ledgerDevice, err := ledger.DiscoverLedger()
-	if err != nil {
-		fmt.Println(fmt.Sprintf("Failed to find ledger device: %s", err.Error()))
-		return
-	}
-	err = ledgerDevice.Close()
-	if err != nil {
-		fmt.Println(fmt.Sprintf("Failed to find ledger device: %s", err.Error()))
-		return
-	}
+	//bip44Params := keys.NewBinanceBIP44Params(0, 0)
+	//keyManager, err := keys.NewLedgerKeyManager(bip44Params.DerivationPath())
+	//if err != nil {
+	//	fmt.Println(err.Error())
+	//	return
+	//}
 
-	bip44Params := keys.NewBinanceBIP44Params(0, 0)
-	keyManager, err := keys.NewLedgerKeyManager(bip44Params.DerivationPath())
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
+	keyManager, err := keys.NewPrivateKeyManager("64967ded205b00b1f872f59242031d4cc02a1bcca47017361d7f3854e86c545e")
+	keyManager.GetAddr()
 
-	receiverAddr, err := types.AccAddressFromBech32("tbnb15339dcwlq5nza4atfmqxfx6mhamywz35he2cvv")
+	receiverAddr, err := types.AccAddressFromBech32("tbnb1tt84yhkvh6q23kksttfq36dujnyfh2cldrzux5")
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -69,7 +70,7 @@ func main() {
 	}
 
 	fmt.Println(fmt.Sprintf("Please verify sign key address (%s) and transaction data", types.AccAddress(keyManager.GetAddr()).String()))
-	sendResult, err := dexClient.SendToken([]msg.Transfer{{receiverAddr, types.Coins{types.Coin{Denom: "BNB", Amount: 10000000}}}}, true)
+	sendResult, err := dexClient.SendToken([]msgtype.Transfer{{receiverAddr, types.Coins{types.Coin{Denom: "BNB", Amount: 10000000}}}}, true)
 	if err != nil {
 		fmt.Println(err.Error())
 		return

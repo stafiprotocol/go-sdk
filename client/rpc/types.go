@@ -1,7 +1,7 @@
 package rpc
 
 import (
-	"github.com/stafiprotocol/go-sdk/types/tx"
+	"github.com/stafiprotocol/go-sdk/types/txtype"
 	"github.com/stafiprotocol/tendermint/abci/types"
 	cmn "github.com/stafiprotocol/tendermint/libs/common"
 	abci "github.com/stafiprotocol/tendermint/types"
@@ -148,7 +148,7 @@ func (r *ResultTxSearch) complement() {
 type Info struct {
 	Hash   cmn.HexBytes      `json:"hash"`
 	Height int64             `json:"height"`
-	Tx     tx.Tx             `json:"tx"`
+	Tx     txtype.Tx         `json:"tx"`
 	Result ResponseDeliverTx `json:"result"`
 }
 

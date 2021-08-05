@@ -2,13 +2,12 @@ package transaction
 
 import (
 	"fmt"
-
-	"github.com/stafiprotocol/go-sdk/types/msg"
-	"github.com/stafiprotocol/go-sdk/types/tx"
+	"github.com/stafiprotocol/go-sdk/types/msgtype"
+	"github.com/stafiprotocol/go-sdk/types/txtype"
 )
 
 type BurnTokenResult struct {
-	tx.TxCommitResult
+	txtype.TxCommitResult
 }
 
 func (c *client) BurnToken(symbol string, amount int64, sync bool, options ...Option) (*BurnTokenResult, error) {
@@ -17,7 +16,7 @@ func (c *client) BurnToken(symbol string, amount int64, sync bool, options ...Op
 	}
 	fromAddr := c.keyManager.GetAddr()
 
-	burnMsg := msg.NewTokenBurnMsg(
+	burnMsg := msgtype.NewTokenBurnMsg(
 		fromAddr,
 		symbol,
 		amount,

@@ -3,13 +3,12 @@ package transaction
 import (
 	"encoding/json"
 	"fmt"
-
-	"github.com/stafiprotocol/go-sdk/types/msg"
-	"github.com/stafiprotocol/go-sdk/types/tx"
+	"github.com/stafiprotocol/go-sdk/types/msgtype"
+	"github.com/stafiprotocol/go-sdk/types/txtype"
 )
 
 type IssueTokenResult struct {
-	tx.TxCommitResult
+	txtype.TxCommitResult
 	Symbol string `json:"symbol"`
 }
 
@@ -27,7 +26,7 @@ func (c *client) IssueToken(name, symbol string, supply int64, sync bool, mintab
 	}
 	fromAddr := c.keyManager.GetAddr()
 
-	issueMsg := msg.NewTokenIssueMsg(
+	issueMsg := msgtype.NewTokenIssueMsg(
 		fromAddr,
 		name,
 		symbol,

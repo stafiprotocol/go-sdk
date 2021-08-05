@@ -9,16 +9,16 @@ import (
 	"github.com/stafiprotocol/go-sdk/client/query"
 	"github.com/stafiprotocol/go-sdk/common/types"
 	"github.com/stafiprotocol/go-sdk/keys"
-	"github.com/stafiprotocol/go-sdk/types/msg"
-	"github.com/stafiprotocol/go-sdk/types/tx"
+	"github.com/stafiprotocol/go-sdk/types/msgtype"
+	"github.com/stafiprotocol/go-sdk/types/txtype"
 )
 
-type Option = tx.Option
+type Option = txtype.Option
 
 var (
-	WithSource           = tx.WithSource
-	WithMemo             = tx.WithMemo
-	WithAcNumAndSequence = tx.WithAcNumAndSequence
+	WithSource           = txtype.WithSource
+	WithMemo             = txtype.WithMemo
+	WithAcNumAndSequence = txtype.WithAcNumAndSequence
 )
 
 type TransactionClient interface {
@@ -29,7 +29,7 @@ type TransactionClient interface {
 	FreezeToken(symbol string, amount int64, sync bool, options ...Option) (*FreezeTokenResult, error)
 	UnfreezeToken(symbol string, amount int64, sync bool, options ...Option) (*UnfreezeTokenResult, error)
 	IssueToken(name, symbol string, supply int64, sync bool, mintable bool, options ...Option) (*IssueTokenResult, error)
-	SendToken(transfers []msg.Transfer, sync bool, options ...Option) (*SendTokenResult, error)
+	SendToken(transfers []msgtype.Transfer, sync bool, options ...Option) (*SendTokenResult, error)
 	MintToken(symbol string, amount int64, sync bool, options ...Option) (*MintTokenResult, error)
 	TransferTokenOwnership(symbol string, newOwner types.AccAddress, sync bool, options ...Option) (*TransferTokenOwnershipResult, error)
 	TimeLock(description string, amount types.Coins, lockTime int64, sync bool, options ...Option) (*TimeLockResult, error)
@@ -42,10 +42,10 @@ type TransactionClient interface {
 	ClaimHTLT(swapID []byte, randomNumber []byte, sync bool, options ...Option) (*ClaimHTLTResult, error)
 	RefundHTLT(swapID []byte, sync bool, options ...Option) (*RefundHTLTResult, error)
 
-	SubmitListPairProposal(title string, param msg.ListTradingPairParams, initialDeposit int64, votingPeriod time.Duration, sync bool, options ...Option) (*SubmitProposalResult, error)
-	SubmitProposal(title string, description string, proposalType msg.ProposalKind, initialDeposit int64, votingPeriod time.Duration, sync bool, options ...Option) (*SubmitProposalResult, error)
+	SubmitListPairProposal(title string, param msgtype.ListTradingPairParams, initialDeposit int64, votingPeriod time.Duration, sync bool, options ...Option) (*SubmitProposalResult, error)
+	SubmitProposal(title string, description string, proposalType msgtype.ProposalKind, initialDeposit int64, votingPeriod time.Duration, sync bool, options ...Option) (*SubmitProposalResult, error)
 	DepositProposal(proposalID int64, amount int64, sync bool, options ...Option) (*DepositProposalResult, error)
-	VoteProposal(proposalID int64, option msg.VoteOption, sync bool, options ...Option) (*VoteProposalResult, error)
+	VoteProposal(proposalID int64, option msgtype.VoteOption, sync bool, options ...Option) (*VoteProposalResult, error)
 
 	IssueMiniToken(name, symbol string, supply int64, sync bool, mintable bool, tokenURI string, options ...Option) (*IssueMiniTokenResult, error)
 	IssueTinyToken(name, symbol string, supply int64, sync bool, mintable bool, tokenURI string, options ...Option) (*IssueTinyTokenResult, error)
@@ -70,15 +70,15 @@ func (c *client) GetKeyManager() keys.KeyManager {
 	return c.keyManager
 }
 
-func (c *client) broadcastMsg(m msg.Msg, sync bool, options ...Option) (*tx.TxCommitResult, error) {
+func (c *client) broadcastMsg(m msgtype.Msg, sync bool, options ...Option) (*txtype.TxCommitResult, error) {
 	// prepare message to sign
-	signMsg := &tx.StdSignMsg{
+	signMsg := &txtype.StdSignMsg{
 		ChainID:       c.chainId,
 		AccountNumber: -1,
 		Sequence:      -1,
 		Memo:          "",
-		Msgs:          []msg.Msg{m},
-		Source:        tx.Source,
+		Msgs:          []msgtype.Msg{m},
+		Source:        txtype.Source,
 	}
 
 	for _, op := range options {
@@ -96,8 +96,8 @@ func (c *client) broadcastMsg(m msg.Msg, sync bool, options ...Option) (*tx.TxCo
 	}
 
 	// special logic for createOrder, to save account query
-	if orderMsg, ok := m.(msg.CreateOrderMsg); ok {
-		orderMsg.ID = msg.GenerateOrderID(signMsg.Sequence+1, c.keyManager.GetAddr())
+	if orderMsg, ok := m.(msgtype.CreateOrderMsg); ok {
+		orderMsg.ID = msgtype.GenerateOrderID(signMsg.Sequence+1, c.keyManager.GetAddr())
 		signMsg.Msgs[0] = orderMsg
 	}
 

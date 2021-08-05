@@ -13,7 +13,7 @@ import (
 
 	ntypes "github.com/stafiprotocol/go-sdk/common/types"
 	"github.com/stafiprotocol/go-sdk/keys"
-	"github.com/stafiprotocol/go-sdk/types/tx"
+	"github.com/stafiprotocol/go-sdk/types/txtype"
 )
 
 var DefaultTimeout = 5 * time.Second
@@ -76,7 +76,7 @@ func NewHTTP(remote, wsEndpoint string) *HTTP {
 	cdc := rc.Codec()
 	ctypes.RegisterAmino(cdc)
 	ntypes.RegisterWire(cdc)
-	tx.RegisterCodec(cdc)
+	txtype.RegisterCodec(cdc)
 
 	rc.SetCodec(cdc)
 	wsEvent := newWSEvents(cdc, remote, wsEndpoint)

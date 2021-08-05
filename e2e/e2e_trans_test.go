@@ -2,23 +2,21 @@ package e2e
 
 import (
 	"fmt"
-	"github.com/stafiprotocol/go-sdk/client/rpc"
-	"github.com/stafiprotocol/tendermint/crypto"
 	"strings"
 	"testing"
 	time2 "time"
 
-	"github.com/stretchr/testify/assert"
-
-	"github.com/stafiprotocol/tendermint/types/time"
-
 	sdk "github.com/stafiprotocol/go-sdk/client"
+	"github.com/stafiprotocol/go-sdk/client/rpc"
 	"github.com/stafiprotocol/go-sdk/client/transaction"
 	"github.com/stafiprotocol/go-sdk/common"
 	ctypes "github.com/stafiprotocol/go-sdk/common/types"
 	"github.com/stafiprotocol/go-sdk/keys"
-	"github.com/stafiprotocol/go-sdk/types/msg"
-	txtype "github.com/stafiprotocol/go-sdk/types/tx"
+	"github.com/stafiprotocol/go-sdk/types/msgtype"
+	"github.com/stafiprotocol/go-sdk/types/txtype"
+	"github.com/stafiprotocol/tendermint/crypto"
+	"github.com/stafiprotocol/tendermint/types/time"
+	"github.com/stretchr/testify/assert"
 )
 
 // After bnbchain integration_test.sh has runned
@@ -40,7 +38,7 @@ func TestTransProcess(t *testing.T) {
 	//-----   Init sdk  -------------
 	client, err := sdk.NewDexClient(baeUrl, ctypes.TestNetwork, keyManager)
 	assert.NoError(t, err)
-	nativeSymbol := msg.NativeToken
+	nativeSymbol := msgtype.NativeToken
 
 	//---- set Account flags
 	addFlags, err := client.AddAccountFlags([]ctypes.FlagOption{ctypes.TransferMemoCheckerFlag}, true)
@@ -115,7 +113,7 @@ func TestTransProcess(t *testing.T) {
 	fmt.Printf("timelock %d", unlockResult.LockId)
 
 	//----- Create order -----------
-	createOrderResult, err := client.CreateOrder(tradeSymbol, nativeSymbol, msg.OrderSide.BUY, 100000000, 100000000, true, transaction.WithSource(100), transaction.WithMemo("test memo"))
+	createOrderResult, err := client.CreateOrder(tradeSymbol, nativeSymbol, msgtype.OrderSide.BUY, 100000000, 100000000, true, transaction.WithSource(100), transaction.WithMemo("test memo"))
 	assert.NoError(t, err)
 	assert.True(t, true, createOrderResult.Ok)
 
@@ -123,11 +121,11 @@ func TestTransProcess(t *testing.T) {
 	acc, err := client.GetAccount(client.GetKeyManager().GetAddr().String())
 	assert.NoError(t, err)
 
-	_, err = client.CreateOrder(tradeSymbol, nativeSymbol, msg.OrderSide.BUY, 100000000, 100000000, true, transaction.WithAcNumAndSequence(acc.Number, acc.Sequence))
+	_, err = client.CreateOrder(tradeSymbol, nativeSymbol, msgtype.OrderSide.BUY, 100000000, 100000000, true, transaction.WithAcNumAndSequence(acc.Number, acc.Sequence))
 	assert.NoError(t, err)
-	_, err = client.CreateOrder(tradeSymbol, nativeSymbol, msg.OrderSide.BUY, 100000000, 100000000, true, transaction.WithAcNumAndSequence(acc.Number, acc.Sequence+1))
+	_, err = client.CreateOrder(tradeSymbol, nativeSymbol, msgtype.OrderSide.BUY, 100000000, 100000000, true, transaction.WithAcNumAndSequence(acc.Number, acc.Sequence+1))
 	assert.NoError(t, err)
-	_, err = client.CreateOrder(tradeSymbol, nativeSymbol, msg.OrderSide.BUY, 100000000, 100000000, true, transaction.WithAcNumAndSequence(acc.Number, acc.Sequence+2))
+	_, err = client.CreateOrder(tradeSymbol, nativeSymbol, msgtype.OrderSide.BUY, 100000000, 100000000, true, transaction.WithAcNumAndSequence(acc.Number, acc.Sequence+2))
 	assert.NoError(t, err)
 
 	//---- Get Open Order ---------
@@ -162,7 +160,7 @@ func TestTransProcess(t *testing.T) {
 	fmt.Printf("GetTx: %v\n", tx)
 
 	//----   Send tx  -----------
-	send, err := client.SendToken([]msg.Transfer{{testAccount2, []ctypes.Coin{{nativeSymbol, 100000000}}}, {testAccount3, []ctypes.Coin{{nativeSymbol, 100000000}}}}, true)
+	send, err := client.SendToken([]msgtype.Transfer{{testAccount2, []ctypes.Coin{{nativeSymbol, 100000000}}}, {testAccount3, []ctypes.Coin{{nativeSymbol, 100000000}}}}, true)
 	assert.NoError(t, err)
 	assert.True(t, send.Ok)
 	fmt.Printf("Send token: %v\n", send)
@@ -206,7 +204,7 @@ func TestTransProcess(t *testing.T) {
 
 	//---- Submit Proposal ------
 	time2.Sleep(2 * time2.Second)
-	listTradingProposal, err := client.SubmitListPairProposal("New trading pair", msg.ListTradingPairParams{issue.Symbol, nativeSymbol, 1000000000, "my trade", time2.Now().Add(1 * time2.Hour)}, 200000000000, 20*time2.Second, true)
+	listTradingProposal, err := client.SubmitListPairProposal("New trading pair", msgtype.ListTradingPairParams{issue.Symbol, nativeSymbol, 1000000000, "my trade", time2.Now().Add(1 * time2.Hour)}, 200000000000, 20*time2.Second, true)
 	assert.NoError(t, err)
 	fmt.Printf("Submit list trading pair: %v\n", listTradingProposal)
 
@@ -223,7 +221,7 @@ func TestTransProcess(t *testing.T) {
 		assert.NoError(t, err)
 		client, err := sdk.NewDexClient(baeUrl, ctypes.TestNetwork, k)
 		assert.NoError(t, err)
-		vote, err := client.VoteProposal(listTradingProposal.ProposalId, msg.OptionYes, true)
+		vote, err := client.VoteProposal(listTradingProposal.ProposalId, msgtype.OptionYes, true)
 		assert.NoError(t, err)
 		fmt.Printf("Vote: %v\n", vote)
 	}
@@ -311,7 +309,7 @@ func TestAtomicSwap(t *testing.T) {
 
 	randomNumber := crypto.CRandBytes(32)
 	timestamp := int64(time.Now().Unix())
-	randomNumberHash := msg.CalculateRandomHash(randomNumber, timestamp)
+	randomNumberHash := msgtype.CalculateRandomHash(randomNumber, timestamp)
 	recipientOtherChain := "0x491e71b619878c083eaf2894718383c7eb15eb17"
 	senderOtherChain := "0x833914c3A745d924bf71d98F9F9Ae126993E3C88"
 	amount := ctypes.Coins{ctypes.Coin{"BNB", 10000}}
@@ -320,19 +318,19 @@ func TestAtomicSwap(t *testing.T) {
 	_, err = client.HTLT(testAccount2, recipientOtherChain, senderOtherChain, randomNumberHash, timestamp, amount, expetedIncome, heightSpan, true, true)
 	assert.NoError(t, err)
 	time2.Sleep(2 * time2.Second)
-	swapID := msg.CalculateSwapID(randomNumberHash, testAccount1, senderOtherChain)
+	swapID := msgtype.CalculateSwapID(randomNumberHash, testAccount1, senderOtherChain)
 	_, err = client.ClaimHTLT(swapID, randomNumber, true)
 	assert.NoError(t, err)
 	time2.Sleep(2 * time2.Second)
 
 	randomNumber = crypto.CRandBytes(32)
 	timestamp = int64(time.Now().Unix())
-	randomNumberHash = msg.CalculateRandomHash(randomNumber, timestamp)
+	randomNumberHash = msgtype.CalculateRandomHash(randomNumber, timestamp)
 	heightSpan = int64(360)
 	_, err = client.HTLT(testAccount2, recipientOtherChain, senderOtherChain, randomNumberHash, timestamp, amount, expetedIncome, heightSpan, true, true)
 	assert.NoError(t, err)
 	time2.Sleep(2 * time2.Second)
-	swapID1 := msg.CalculateSwapID(randomNumberHash, testAccount1, senderOtherChain)
+	swapID1 := msgtype.CalculateSwapID(randomNumberHash, testAccount1, senderOtherChain)
 	_, err = client.RefundHTLT(swapID1, true)
 	assert.Error(t, err)
 	time2.Sleep(2 * time2.Second)
@@ -340,14 +338,14 @@ func TestAtomicSwap(t *testing.T) {
 
 	randomNumber = crypto.CRandBytes(32)
 	timestamp = int64(time.Now().Unix())
-	randomNumberHash = msg.CalculateRandomHash(randomNumber, timestamp)
+	randomNumberHash = msgtype.CalculateRandomHash(randomNumber, timestamp)
 	amount = ctypes.Coins{ctypes.Coin{"BNB", 10000}}
 	expetedIncome = "1000:BTC-271"
 	heightSpan = int64(1000)
 	_, err = client.HTLT(testAccount2, "", "", randomNumberHash, timestamp, amount, expetedIncome, heightSpan, false, true)
 	assert.NoError(t, err)
 	time2.Sleep(2 * time2.Second)
-	swapID2 := msg.CalculateSwapID(randomNumberHash, testAccount1, "")
+	swapID2 := msgtype.CalculateSwapID(randomNumberHash, testAccount1, "")
 	depositAmount := ctypes.Coins{ctypes.Coin{"BTC-271", 1000}}
 	client1, err := sdk.NewDexClient(baeUrl, ctypes.TestNetwork, testKeyManager2)
 	assert.NoError(t, err)

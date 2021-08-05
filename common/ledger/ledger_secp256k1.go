@@ -1,12 +1,12 @@
 package ledger
 
 import (
-	"github.com/stafiprotocol/go-sdk/common/types"
 	ledgergo "github.com/binance-chain/ledger-cosmos-go"
 	"github.com/btcsuite/btcd/btcec"
-	tmbtcec "github.com/tendermint/btcd/btcec"
+	"github.com/stafiprotocol/go-sdk/common/types"
 	"github.com/stafiprotocol/tendermint/crypto"
 	"github.com/stafiprotocol/tendermint/crypto/secp256k1"
+	tmbtcec "github.com/tendermint/btcd/btcec"
 )
 
 var (
@@ -87,8 +87,8 @@ func (pkl PrivKeyLedgerSecp256k1) PubKey() crypto.PubKey {
 }
 
 func (pkl PrivKeyLedgerSecp256k1) Equals(other crypto.PrivKey) bool {
-	if ledger, ok := other.(*PrivKeyLedgerSecp256k1); ok {
-		return pkl.PubKey().Equals(ledger.PubKey())
+	if ledg, ok := other.(*PrivKeyLedgerSecp256k1); ok {
+		return pkl.PubKey().Equals(ledg.PubKey())
 	}
 
 	return false

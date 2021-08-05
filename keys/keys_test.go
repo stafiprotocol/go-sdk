@@ -10,10 +10,9 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-
 	ctypes "github.com/stafiprotocol/go-sdk/common/types"
-	"github.com/stafiprotocol/go-sdk/types/msg"
-	"github.com/stafiprotocol/go-sdk/types/tx"
+	"github.com/stafiprotocol/go-sdk/types/msgtype"
+	"github.com/stafiprotocol/go-sdk/types/txtype"
 )
 
 func TestRecoveryFromKeyWordsNoError(t *testing.T) {
@@ -64,14 +63,14 @@ func TestSignTxNoError(t *testing.T) {
 	test1Addr := test1KeyManager.GetAddr()
 	test2Addr := test2KeyManager.GetAddr()
 	testCases := []struct {
-		msg         msg.Msg
+		msg         msgtype.Msg
 		keyManager  KeyManager
 		accountNUm  int64
 		sequence    int64
 		expectHexTx string
 		errMsg      string
 	}{
-		{msg.CreateSendMsg(test1Addr, ctypes.Coins{ctypes.Coin{Denom: "BNB", Amount: 100000000000000}}, []msg.Transfer{{test2KeyManager.GetAddr(), ctypes.Coins{ctypes.Coin{Denom: "BNB", Amount: 100000000000000}}}}),
+		{msgtype.CreateSendMsg(test1Addr, ctypes.Coins{ctypes.Coin{Denom: "BNB", Amount: 100000000000000}}, []msgtype.Transfer{{test2KeyManager.GetAddr(), ctypes.Coins{ctypes.Coin{Denom: "BNB", Amount: 100000000000000}}}}),
 			test1KeyManager,
 			0,
 			1,
@@ -79,14 +78,14 @@ func TestSignTxNoError(t *testing.T) {
 			"send message sign error",
 		},
 		{
-			msg.NewTokenIssueMsg(test2Addr, "Bitcoin", "BTC", 1000000000000000, true),
+			msgtype.NewTokenIssueMsg(test2Addr, "Bitcoin", "BTC", 1000000000000000, true),
 			test2KeyManager,
 			1,
 			0,
 			"a701f0625dee0a3317efab800a146b571fc0a9961a7ddf45e49a88a4d83941fcabbe1207426974636f696e1a034254432080809aa6eaafe3012801126c0a26eb5ae9872103d8f33449356d58b699f6b16a498bd391aa5e051085415d0fe1873939bc1d2e3a12403686586a55f8c50a11ae6f09c35734f09830a566823846f9333c3e53f6d83d4a2cd3a0542c37a8d28b474f563d44223ba6c2b7cf260539b7b85020999ebe2c001801",
 			"issue message sign error",
 		},
-		{msg.NewMsgSubmitProposal("list BTC/BNB", "{\"base_asset_symbol\":\"BTC-86A\",\"quote_asset_symbol\":\"BNB\",\"init_price\":100000000,\"description\":\"list BTC/BNB\",\"expire_time\":\"2018-12-24T00:46:05+08:00\"}", msg.ProposalTypeListTradingPair, test1Addr, ctypes.Coins{ctypes.Coin{Denom: "BNB", Amount: 200000000000}}, time.Second),
+		{msgtype.NewMsgSubmitProposal("list BTC/BNB", "{\"base_asset_symbol\":\"BTC-86A\",\"quote_asset_symbol\":\"BNB\",\"init_price\":100000000,\"description\":\"list BTC/BNB\",\"expire_time\":\"2018-12-24T00:46:05+08:00\"}", msgtype.ProposalTypeListTradingPair, test1Addr, ctypes.Coins{ctypes.Coin{Denom: "BNB", Amount: 200000000000}}, time.Second),
 			test1KeyManager,
 			0,
 			2,
@@ -94,7 +93,7 @@ func TestSignTxNoError(t *testing.T) {
 			"submit proposal sign error",
 		},
 		{
-			msg.NewMsgVote(test1Addr, 1, msg.OptionYes),
+			msgtype.NewMsgVote(test1Addr, 1, msgtype.OptionYes),
 			test1KeyManager,
 			0,
 			3,
@@ -102,14 +101,14 @@ func TestSignTxNoError(t *testing.T) {
 			"vote proposal sign error",
 		},
 		{
-			msg.NewDexListMsg(test2Addr, 1, "BTC-86A", "BNB", 100000000),
+			msgtype.NewDexListMsg(test2Addr, 1, "BTC-86A", "BNB", 100000000),
 			test2KeyManager,
 			1,
 			2,
 			"a501f0625dee0a2fb41de13f0a146b571fc0a9961a7ddf45e49a88a4d83941fcabbe10011a074254432d3836412203424e422880c2d72f126e0a26eb5ae9872103d8f33449356d58b699f6b16a498bd391aa5e051085415d0fe1873939bc1d2e3a1240ce897838dd4d70d3c337b62ac1f60ec022bb2bf281fb77eca95adcd64de0a6aa574b128c5f732545c8b0e62dcd1cd90f9898c5f7781ae9d64042859c4e40558b18012002",
 			"List tradimg sign error",
 		},
-		{msg.NewCreateOrderMsg(test1Addr, "1D0E3086E8E4E0A53C38A90D55BD58B34D57D2FA-5", 1, "BTC-86A_BNB", 100000000, 1000000000),
+		{msgtype.NewCreateOrderMsg(test1Addr, "1D0E3086E8E4E0A53C38A90D55BD58B34D57D2FA-5", 1, "BTC-86A_BNB", 100000000, 1000000000),
 			test1KeyManager,
 			0,
 			4,
@@ -117,7 +116,7 @@ func TestSignTxNoError(t *testing.T) {
 			"Create order sign error",
 		},
 		{
-			msg.NewCancelOrderMsg(test1Addr, "BTC-86A_BNB", "1D0E3086E8E4E0A53C38A90D55BD58B34D57D2FA-5"),
+			msgtype.NewCancelOrderMsg(test1Addr, "BTC-86A_BNB", "1D0E3086E8E4E0A53C38A90D55BD58B34D57D2FA-5"),
 			test1KeyManager,
 			0,
 			5,
@@ -125,7 +124,7 @@ func TestSignTxNoError(t *testing.T) {
 			"Cancel order sign error",
 		},
 		{
-			msg.NewFreezeMsg(test1Addr, "BNB", 100000000),
+			msgtype.NewFreezeMsg(test1Addr, "BNB", 100000000),
 			test1KeyManager,
 			0,
 			10,
@@ -133,7 +132,7 @@ func TestSignTxNoError(t *testing.T) {
 			"Freeze token sign error",
 		},
 		{
-			msg.NewUnfreezeMsg(test1Addr, "BNB", 100000000),
+			msgtype.NewUnfreezeMsg(test1Addr, "BNB", 100000000),
 			test1KeyManager,
 			0,
 			11,
@@ -141,7 +140,7 @@ func TestSignTxNoError(t *testing.T) {
 			"Unfreeze token sign error",
 		},
 		{
-			msg.NewTokenBurnMsg(test1Addr, "BNB", 100000000),
+			msgtype.NewTokenBurnMsg(test1Addr, "BNB", 100000000),
 			test1KeyManager,
 			0,
 			12,
@@ -149,7 +148,7 @@ func TestSignTxNoError(t *testing.T) {
 			"Burn token sign error",
 		},
 		{
-			msg.NewMintMsg(test2Addr, "BTC-86A", 100000000),
+			msgtype.NewMintMsg(test2Addr, "BTC-86A", 100000000),
 			test2KeyManager,
 			1,
 			5,
@@ -158,12 +157,12 @@ func TestSignTxNoError(t *testing.T) {
 		},
 	}
 	for _, c := range testCases {
-		signMsg := tx.StdSignMsg{
+		signMsg := txtype.StdSignMsg{
 			ChainID:       "bnbchain-1000",
 			AccountNumber: c.accountNUm,
 			Sequence:      c.sequence,
 			Memo:          "",
-			Msgs:          []msg.Msg{c.msg},
+			Msgs:          []msgtype.Msg{c.msg},
 			Source:        0,
 		}
 

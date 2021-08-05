@@ -9,9 +9,9 @@ import (
 
 	"gopkg.in/resty.v1"
 
-	"github.com/stafiprotocol/go-sdk/types"
-	"github.com/stafiprotocol/go-sdk/types/tx"
 	"github.com/gorilla/websocket"
+	"github.com/stafiprotocol/go-sdk/types"
+	"github.com/stafiprotocol/go-sdk/types/txtype"
 )
 
 const (
@@ -22,8 +22,8 @@ type BasicClient interface {
 	Get(path string, qp map[string]string) ([]byte, int, error)
 	Post(path string, body interface{}, param map[string]string) ([]byte, error)
 
-	GetTx(txHash string) (*tx.TxResult, error)
-	PostTx(hexTx []byte, param map[string]string) ([]tx.TxCommitResult, error)
+	GetTx(txHash string) (*txtype.TxResult, error)
+	PostTx(hexTx []byte, param map[string]string) ([]txtype.TxCommitResult, error)
 	WsGet(path string, constructMsg func([]byte) (interface{}, error), closeCh <-chan struct{}) (<-chan interface{}, error)
 }
 
@@ -73,7 +73,7 @@ func (c *client) Post(path string, body interface{}, param map[string]string) ([
 }
 
 // GetTx returns transaction details
-func (c *client) GetTx(txHash string) (*tx.TxResult, error) {
+func (c *client) GetTx(txHash string) (*txtype.TxResult, error) {
 	if txHash == "" {
 		return nil, fmt.Errorf("Invalid tx hash %s ", txHash)
 	}
@@ -84,7 +84,7 @@ func (c *client) GetTx(txHash string) (*tx.TxResult, error) {
 		return nil, err
 	}
 
-	var txResult tx.TxResult
+	var txResult txtype.TxResult
 	if err := json.Unmarshal(resp, &txResult); err != nil {
 		return nil, err
 	}
@@ -93,7 +93,7 @@ func (c *client) GetTx(txHash string) (*tx.TxResult, error) {
 }
 
 // PostTx returns transaction details
-func (c *client) PostTx(hexTx []byte, param map[string]string) ([]tx.TxCommitResult, error) {
+func (c *client) PostTx(hexTx []byte, param map[string]string) ([]txtype.TxCommitResult, error) {
 	if len(hexTx) == 0 {
 		return nil, fmt.Errorf("Invalid tx  %s", hexTx)
 	}
@@ -103,7 +103,7 @@ func (c *client) PostTx(hexTx []byte, param map[string]string) ([]tx.TxCommitRes
 	if err != nil {
 		return nil, err
 	}
-	txResult := make([]tx.TxCommitResult, 0)
+	txResult := make([]txtype.TxCommitResult, 0)
 	if err := json.Unmarshal(resp, &txResult); err != nil {
 		return nil, err
 	}
