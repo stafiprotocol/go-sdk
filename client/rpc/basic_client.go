@@ -5,11 +5,11 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	cmn "github.com/tendermint/tendermint/libs/common"
-	"github.com/tendermint/tendermint/rpc/client"
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
-	"github.com/tendermint/tendermint/rpc/lib/client"
-	"github.com/tendermint/tendermint/types"
+	cmn "github.com/stafiprotocol/tendermint/libs/common"
+	"github.com/stafiprotocol/tendermint/rpc/client"
+	ctypes "github.com/stafiprotocol/tendermint/rpc/core/types"
+	"github.com/stafiprotocol/tendermint/rpc/lib/client"
+	"github.com/stafiprotocol/tendermint/types"
 
 	ntypes "github.com/stafiprotocol/go-sdk/common/types"
 	"github.com/stafiprotocol/go-sdk/keys"

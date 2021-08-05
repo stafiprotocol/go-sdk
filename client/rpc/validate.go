@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/tendermint/tendermint/libs/common"
-	"github.com/tendermint/tendermint/types"
+	"github.com/stafiprotocol/tendermint/libs/common"
+	"github.com/stafiprotocol/tendermint/types"
 )
 
 const (

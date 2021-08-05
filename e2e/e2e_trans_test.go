@@ -3,14 +3,14 @@ package e2e
 import (
 	"fmt"
 	"github.com/stafiprotocol/go-sdk/client/rpc"
-	"github.com/tendermint/tendermint/crypto"
+	"github.com/stafiprotocol/tendermint/crypto"
 	"strings"
 	"testing"
 	time2 "time"
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/tendermint/tendermint/types/time"
+	"github.com/stafiprotocol/tendermint/types/time"
 
 	sdk "github.com/stafiprotocol/go-sdk/client"
 	"github.com/stafiprotocol/go-sdk/client/transaction"

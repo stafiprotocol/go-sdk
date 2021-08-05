@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/stafiprotocol/go-sdk/common/bech32"
-	"github.com/tendermint/tendermint/crypto"
+	"github.com/stafiprotocol/tendermint/crypto"
 )
 
 type ValAddress []byte

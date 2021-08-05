@@ -13,7 +13,7 @@ import (
 	"github.com/stafiprotocol/go-sdk/types/msg"
 	"github.com/stafiprotocol/go-sdk/types/tx"
 	"github.com/tendermint/go-amino"
-	coretypes "github.com/tendermint/tendermint/rpc/core/types"
+	coretypes "github.com/stafiprotocol/tendermint/rpc/core/types"
 )
 
 var (

@@ -13,9 +13,9 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/tendermint/tendermint/libs/common"
-	tmquery "github.com/tendermint/tendermint/libs/pubsub/query"
-	"github.com/tendermint/tendermint/types"
+	"github.com/stafiprotocol/tendermint/libs/common"
+	tmquery "github.com/stafiprotocol/tendermint/libs/pubsub/query"
+	"github.com/stafiprotocol/tendermint/types"
 
 	"github.com/stafiprotocol/go-sdk/client/rpc"
 	"github.com/stafiprotocol/go-sdk/client/transaction"

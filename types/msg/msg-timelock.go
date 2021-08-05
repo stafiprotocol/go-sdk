@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/stafiprotocol/go-sdk/common/types"
-	"github.com/tendermint/tendermint/crypto"
+	"github.com/stafiprotocol/tendermint/crypto"
 )
 
 const (

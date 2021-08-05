@@ -9,7 +9,7 @@ import (
 	"golang.org/x/crypto/sha3"
 
 	"github.com/pkg/errors"
-	"github.com/tendermint/tendermint/crypto/tmhash"
+	"github.com/stafiprotocol/tendermint/crypto/tmhash"
 
 	"github.com/stafiprotocol/go-sdk/common/types"
 )

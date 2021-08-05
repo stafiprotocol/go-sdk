@@ -4,13 +4,13 @@ import (
 	"github.com/stafiprotocol/go-sdk/client/rpc"
 	"reflect"
 
-	cmn "github.com/tendermint/tendermint/libs/common"
-	"github.com/tendermint/tendermint/libs/log"
-	"github.com/tendermint/tendermint/rpc/client"
-	"github.com/tendermint/tendermint/rpc/core"
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
-	rpctypes "github.com/tendermint/tendermint/rpc/lib/types"
-	"github.com/tendermint/tendermint/types"
+	cmn "github.com/stafiprotocol/tendermint/libs/common"
+	"github.com/stafiprotocol/tendermint/libs/log"
+	"github.com/stafiprotocol/tendermint/rpc/client"
+	"github.com/stafiprotocol/tendermint/rpc/core"
+	ctypes "github.com/stafiprotocol/tendermint/rpc/core/types"
+	rpctypes "github.com/stafiprotocol/tendermint/rpc/lib/types"
+	"github.com/stafiprotocol/tendermint/types"
 )
 
 // Client wraps arbitrary implementations of the various interfaces.

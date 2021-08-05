@@ -14,7 +14,7 @@ import (
 	gtypes "github.com/stafiprotocol/go-sdk/types"
 	"github.com/stafiprotocol/go-sdk/types/msg"
 	"github.com/stafiprotocol/go-sdk/types/tx"
-	core_types "github.com/tendermint/tendermint/rpc/core/types"
+	core_types "github.com/stafiprotocol/tendermint/rpc/core/types"
 )
 
 type SyncType int

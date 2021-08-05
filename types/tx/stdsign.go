@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 
 	"github.com/stafiprotocol/go-sdk/types/msg"
-	"github.com/tendermint/tendermint/crypto"
+	"github.com/stafiprotocol/tendermint/crypto"
 )
 
 // StdSignDoc def

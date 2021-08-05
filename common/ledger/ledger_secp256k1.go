@@ -5,8 +5,8 @@ import (
 	ledgergo "github.com/binance-chain/ledger-cosmos-go"
 	"github.com/btcsuite/btcd/btcec"
 	tmbtcec "github.com/tendermint/btcd/btcec"
-	"github.com/tendermint/tendermint/crypto"
-	"github.com/tendermint/tendermint/crypto/secp256k1"
+	"github.com/stafiprotocol/tendermint/crypto"
+	"github.com/stafiprotocol/tendermint/crypto/secp256k1"
 )
 
 var (

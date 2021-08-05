@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/stafiprotocol/go-sdk/common/types"
-	"github.com/tendermint/tendermint/crypto"
+	"github.com/stafiprotocol/tendermint/crypto"
 )
 
 // Description - description fields for a validator

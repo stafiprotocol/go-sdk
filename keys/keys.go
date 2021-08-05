@@ -12,7 +12,7 @@ import (
 	"golang.org/x/crypto/pbkdf2"
 	"golang.org/x/crypto/sha3"
 
-	"github.com/tendermint/tendermint/crypto/secp256k1"
+	"github.com/stafiprotocol/tendermint/crypto/secp256k1"
 
 	"github.com/stafiprotocol/go-sdk/common"
 	"github.com/stafiprotocol/go-sdk/common/ledger"
@@ -20,7 +20,7 @@ import (
 	ctypes "github.com/stafiprotocol/go-sdk/common/types"
 	"github.com/stafiprotocol/go-sdk/common/uuid"
 	"github.com/stafiprotocol/go-sdk/types/tx"
-	"github.com/tendermint/tendermint/crypto"
+	"github.com/stafiprotocol/tendermint/crypto"
 )
 
 const (

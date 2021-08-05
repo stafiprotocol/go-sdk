@@ -2,9 +2,9 @@ package rpc
 
 import (
 	"github.com/stafiprotocol/go-sdk/types/tx"
-	"github.com/tendermint/tendermint/abci/types"
-	cmn "github.com/tendermint/tendermint/libs/common"
-	abci "github.com/tendermint/tendermint/types"
+	"github.com/stafiprotocol/tendermint/abci/types"
+	cmn "github.com/stafiprotocol/tendermint/libs/common"
+	abci "github.com/stafiprotocol/tendermint/types"
 )
 
 type ResultBroadcastTxCommit struct {

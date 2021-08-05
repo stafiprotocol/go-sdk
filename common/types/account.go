@@ -2,7 +2,7 @@ package types
 
 import (
 	"github.com/pkg/errors"
-	"github.com/tendermint/tendermint/crypto"
+	"github.com/stafiprotocol/tendermint/crypto"
 )
 
 // AppAccount definition

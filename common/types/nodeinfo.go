@@ -3,7 +3,7 @@ package types
 import (
 	"time"
 
-	"github.com/tendermint/tendermint/libs/common"
+	"github.com/stafiprotocol/tendermint/libs/common"
 )
 
 // Account definition

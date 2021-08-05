@@ -1,8 +1,8 @@
 package tx
 
 import (
+	"github.com/stafiprotocol/tendermint/crypto/encoding/amino"
 	"github.com/tendermint/go-amino"
-	"github.com/tendermint/tendermint/crypto/encoding/amino"
 
 	"github.com/stafiprotocol/go-sdk/types/msg"
 )

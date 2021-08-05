@@ -2,12 +2,12 @@ package mock
 
 import (
 	"github.com/stafiprotocol/go-sdk/client/rpc"
-	abci "github.com/tendermint/tendermint/abci/types"
-	cmn "github.com/tendermint/tendermint/libs/common"
-	"github.com/tendermint/tendermint/proxy"
-	"github.com/tendermint/tendermint/rpc/client"
-	ctypes "github.com/tendermint/tendermint/rpc/core/types"
-	"github.com/tendermint/tendermint/types"
+	abci "github.com/stafiprotocol/tendermint/abci/types"
+	cmn "github.com/stafiprotocol/tendermint/libs/common"
+	"github.com/stafiprotocol/tendermint/proxy"
+	"github.com/stafiprotocol/tendermint/rpc/client"
+	ctypes "github.com/stafiprotocol/tendermint/rpc/core/types"
+	"github.com/stafiprotocol/tendermint/types"
 )
 
 // ABCIApp will send all abci related request to the named app,
