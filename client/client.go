@@ -3,12 +3,12 @@ package client
 import (
 	"gopkg.in/resty.v1"
 
-	"github.com/binance-chain/go-sdk/client/basic"
-	"github.com/binance-chain/go-sdk/client/query"
-	"github.com/binance-chain/go-sdk/client/transaction"
-	"github.com/binance-chain/go-sdk/client/websocket"
-	"github.com/binance-chain/go-sdk/common/types"
-	"github.com/binance-chain/go-sdk/keys"
+	"github.com/stafiprotocol/go-sdk/client/basic"
+	"github.com/stafiprotocol/go-sdk/client/query"
+	"github.com/stafiprotocol/go-sdk/client/transaction"
+	"github.com/stafiprotocol/go-sdk/client/websocket"
+	"github.com/stafiprotocol/go-sdk/common/types"
+	"github.com/stafiprotocol/go-sdk/keys"
 )
 
 // dexClient wrapper

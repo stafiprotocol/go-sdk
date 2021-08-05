@@ -3,9 +3,9 @@ package transaction
 import (
 	"strconv"
 
-	"github.com/binance-chain/go-sdk/common/types"
-	"github.com/binance-chain/go-sdk/types/msg"
-	"github.com/binance-chain/go-sdk/types/tx"
+	"github.com/stafiprotocol/go-sdk/common/types"
+	"github.com/stafiprotocol/go-sdk/types/msg"
+	"github.com/stafiprotocol/go-sdk/types/tx"
 )
 
 type TimeLockResult struct {

@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/binance-chain/go-sdk/common"
-	"github.com/binance-chain/go-sdk/types/msg"
-	"github.com/binance-chain/go-sdk/types/tx"
+	"github.com/stafiprotocol/go-sdk/common"
+	"github.com/stafiprotocol/go-sdk/types/msg"
+	"github.com/stafiprotocol/go-sdk/types/tx"
 )
 
 type CreateOrderResult struct {

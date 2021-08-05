@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"math/big"
 
-	sdk "github.com/binance-chain/go-sdk/common/types"
+	sdk "github.com/stafiprotocol/go-sdk/common/types"
 )
 
 const (

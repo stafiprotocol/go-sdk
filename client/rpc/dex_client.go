@@ -7,13 +7,13 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/binance-chain/go-sdk/common"
-	"github.com/binance-chain/go-sdk/common/types"
-	sdk "github.com/binance-chain/go-sdk/common/types"
-	"github.com/binance-chain/go-sdk/keys"
-	gtypes "github.com/binance-chain/go-sdk/types"
-	"github.com/binance-chain/go-sdk/types/msg"
-	"github.com/binance-chain/go-sdk/types/tx"
+	"github.com/stafiprotocol/go-sdk/common"
+	"github.com/stafiprotocol/go-sdk/common/types"
+	sdk "github.com/stafiprotocol/go-sdk/common/types"
+	"github.com/stafiprotocol/go-sdk/keys"
+	gtypes "github.com/stafiprotocol/go-sdk/types"
+	"github.com/stafiprotocol/go-sdk/types/msg"
+	"github.com/stafiprotocol/go-sdk/types/tx"
 	core_types "github.com/tendermint/tendermint/rpc/core/types"
 )
 

@@ -5,12 +5,12 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/binance-chain/go-sdk/client/rpc"
-	ctypes "github.com/binance-chain/go-sdk/common/types"
-	"github.com/binance-chain/go-sdk/keys"
-	"github.com/binance-chain/go-sdk/types"
-	"github.com/binance-chain/go-sdk/types/msg"
-	"github.com/binance-chain/go-sdk/types/tx"
+	"github.com/stafiprotocol/go-sdk/client/rpc"
+	ctypes "github.com/stafiprotocol/go-sdk/common/types"
+	"github.com/stafiprotocol/go-sdk/keys"
+	"github.com/stafiprotocol/go-sdk/types"
+	"github.com/stafiprotocol/go-sdk/types/msg"
+	"github.com/stafiprotocol/go-sdk/types/tx"
 	"github.com/stretchr/testify/assert"
 )
 
