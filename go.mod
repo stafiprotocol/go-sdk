@@ -10,7 +10,7 @@ require (
 	github.com/stretchr/testify v1.7.0
 	github.com/tendermint/btcd v0.0.0-20180816174608-e5840949ff4f
 	github.com/tendermint/go-amino v0.14.1
-	github.com/stafiprotocol/tendermint v0.32.4-0.20210805081059-30bb39552de0
+	github.com/stafiprotocol/tendermint v0.4.0
 	github.com/zondax/hid v0.9.0 // indirect
 	golang.org/x/crypto v0.0.0-20201117144127-c1f2f97bffc9
 	gopkg.in/resty.v1 v1.12.0
